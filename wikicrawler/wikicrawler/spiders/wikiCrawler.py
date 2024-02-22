@@ -7,17 +7,21 @@ from scrapy.exceptions import CloseSpider
 class WikipediaLinksSpider(CrawlSpider):
     name = 'wikipedia_links'
     allowed_domains = ['en.wikipedia.org']
-    start_urls = ['https://en.wikipedia.org/wiki/Dustin_Hoffman']
     visited_urls = set()
+    link_list = []
+
+    def __init__(self, start_url='https://en.wikipedia.org/wiki/Web_scraping', *args, **kwargs):
+        super(WikipediaLinksSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [start_url]
 
     def parse_start_url(self, response):
         return self.parse_link(response)
 
     def parse_link(self, response):
         if response.url == 'https://en.wikipedia.org/wiki/Philosophy':
+            print(f"Reached Philosophy page in {self.steps} steps. Links followed: {self.link_list}")
             raise CloseSpider('Reached Philosophy page')
 
-        # Select the first link in the main text
         paragraphs = response.css('div#bodyContent div#mw-content-text div.mw-parser-output > p').getall()
         for paragraph in paragraphs:
             relative_urls = re.findall(r'href="(/wiki/[^"]*)"', paragraph)
@@ -29,6 +33,5 @@ class WikipediaLinksSpider(CrawlSpider):
                         link = 'https://en.wikipedia.org' + relative_url
                         if link not in self.visited_urls:
                             self.visited_urls.add(link)
-                            yield {'link': link}
-                            yield scrapy.Request(url=link, callback=self.parse_link)
-                            return
+                            self.link_list.append(link)
+                            return scrapy.Request(link, self.parse_link)

@@ -1,1 +1,5 @@
 output.json
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
