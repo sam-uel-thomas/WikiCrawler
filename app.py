@@ -2,8 +2,10 @@ from flask import Flask, jsonify, request
 from scrapy.crawler import CrawlerProcess
 from multiprocessing import Process, Manager
 from wikicrawler.spiders.wikiCrawler import WikipediaLinksSpider
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def run_spider(link_list, start_url):
     class CustomSpider(WikipediaLinksSpider):
