@@ -19,7 +19,6 @@ class WikipediaLinksSpider(CrawlSpider):
 
     def parse_link(self, response):
         if response.url == 'https://en.wikipedia.org/wiki/Philosophy':
-            print(f"Reached Philosophy page in {self.steps} steps. Links followed: {self.link_list}")
             raise CloseSpider('Reached Philosophy page')
 
         paragraphs = response.css('div#bodyContent div#mw-content-text div.mw-parser-output > p').getall()
