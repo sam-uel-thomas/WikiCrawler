@@ -13,14 +13,7 @@ Follow these steps to install and run WikiCrawler:
     ```
     git clone git@github.com:sam-uel-thomas/WikiCrawler.git
     ```
-
-2. **Navigate to the project directory**
-
-    ```
-    cd wikicrawler
-    ```
-
-3. **Install the required packages**
+2. **Install the required packages**
 
     WikiCrawler requires several Python packages. Install them with the following command:
 
