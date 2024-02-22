@@ -24,7 +24,7 @@ def start_spider():
         p = Process(target=run_spider, args=(link_list, start_url))
         p.start()
         p.join()
-        return jsonify({"message": "Spider finished", "visited_links": list(link_list)}), 200
-
+        return jsonify({"message": f"Reached philosophy in {len(link_list)} steps.", "visited_links": list(link_list)}), 200
+    
 if __name__ == '__main__':
     app.run(port=5000)
